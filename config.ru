@@ -1,2 +1,3 @@
 require './photon'
+
 run Photon

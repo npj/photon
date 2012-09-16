@@ -1,17 +1,21 @@
 require 'sinatra/base'
 require 'warden'
 require 'slim'
+require 'mongoid'
+
+%w{ config models }.each do |dir|
+  Dir["./#{dir}/**/*.rb"].each { |f| require f }
+end
 
 require './auth'
-require './config/auth'
 
 class Photon < Sinatra::Base
 
-  enable :sessions
+  enable :logging
 
   set :slim, :pretty => true
 
-  include Config::Auth
+  register Sinatra::Auth
 
   get '/' do
     env['warden'].authenticate!
