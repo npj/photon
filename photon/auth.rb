@@ -1,22 +1,14 @@
-module Sinatra
+module Photon
   module Auth
 
     def self.registered(app)
-
       create_admin_user
       configure_warden
+      define_routes(app)
+      add_middleware(app)
+    end
 
-      app.use Rack::Session::Cookie
-
-      app.use Warden::Manager do |config|
-        config.default_strategies :password
-        config.failure_app = Sinatra.new do
-          post '/unauthenticated/?' do
-            redirect "/auth/login"
-          end
-        end
-      end
-
+    def self.define_routes(app)
       app.get '/auth/login/?' do
         slim :'auth/login'
       end
@@ -31,8 +23,20 @@ module Sinatra
       end
     end
 
+    def self.add_middleware(app)
+      app.use Rack::Session::Cookie
+
+      app.use Warden::Manager do |config|
+        config.default_strategies :password
+        config.failure_app = Sinatra.new do
+          post '/unauthenticated/?' do
+            redirect "/auth/login"
+          end
+        end
+      end
+    end
+
     def self.create_admin_user
-      # create Admin user when this extension is registered
       ENV.values_at('PHOTON_ADMIN_EMAIL', 'PHOTON_ADMIN_PASSWORD').tap do |(email, password)|
         if email && password
           unless User.authenticate(email, password)
@@ -70,6 +74,5 @@ module Sinatra
       end
     end
   end
-
-  register Auth
 end
+

@@ -7,18 +7,7 @@ require 'mongoid'
   Dir["./#{dir}/**/*.rb"].each { |f| require f }
 end
 
-require './auth'
+require './photon/app'
 
-class Photon < Sinatra::Base
-
-  enable :logging
-
-  set :slim, :pretty => true
-
-  register Sinatra::Auth
-
-  get '/' do
-    env['warden'].authenticate!
-    slim :'photon/index'
-  end
+module Photon
 end

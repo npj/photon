@@ -1,3 +1,3 @@
 require './photon'
 
-run Photon
+run Photon::App
