@@ -3,7 +3,7 @@
 doctype html
 html
   head
-    title Photon
+    title photon
     link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css"
     link rel="stylesheet" href="/css/style.css"
   body
@@ -11,10 +11,12 @@ html
       div.navbar.navbar-fixed-top.navbar-inverse
         div.navbar-inner
           div.container
-            a.brand href="/" Photon
+            a.brand href="/" photon
             ul.nav.pull-right
-              li 
-                a href="/auth/logout" data-method="delete" Logout
+              li
+                p.navbar-text 
+                  | <strong>#{current_user.username}</strong> &nbsp; | &nbsp;
+                  a href="/auth/logout" data-method="delete" logout
     div.container
       == yield
     script src="/jQuery/jquery-1.8.1.min.js"

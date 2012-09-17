@@ -12,6 +12,7 @@ module Photon
       create_admin_user
       configure_warden
       define_routes(app)
+      add_helpers(app)
       add_middleware(app)
     end
 
@@ -37,6 +38,14 @@ module Photon
       app.delete '/auth/logout/?' do
         env['warden'].logout
         redirect '/'
+      end
+    end
+
+    def self.add_helpers(app)
+      app.helpers do
+        def current_user
+          env['warden'].user
+        end
       end
     end
 
