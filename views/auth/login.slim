@@ -1,15 +1,13 @@
-div.content
-  div.page-header 
-    h1 Login
-  form.form-horizontal action="/auth/login" method="POST"
-    div.control-group
-      label.control-label for="email" Email
-      div.controls
-        input type="text" name="email" id="email" placeholder="Email"
-    div.control-group
-      label.control-label for="password" Password
-      div.controls
-        input type="password" name="password" id="password" placeholder="Password"
-    div.control-group
-      div.controls
-        button type="submit" class="btn" Login
+div.container
+  div.row
+    div.span4.offset4.well
+      legend Login
+      - if @error
+        div.alert.alert-error
+          a.close data-dismiss="alert" href="#" x
+          = @error
+      form method="POST" action="/auth/login" accept-charset="UTF-8"
+        input.span4 type="text" id="email" name="email" placeholder="Email"
+        input.span4 type="password" id="password" name="password" placeholder="Password"
+        button.btn.btn-info.btn-block type="submit" name="submit" Login
+

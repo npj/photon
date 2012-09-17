@@ -10,7 +10,7 @@ module Photon
 
     def self.define_routes(app)
       app.get '/auth/login/?' do
-        slim :'auth/login'
+        slim :'auth/login', locals: { nav: false }
       end
 
       app.post '/auth/login/?' do
@@ -20,6 +20,7 @@ module Photon
 
       app.delete '/auth/logout/?' do
         env['warden'].logout
+        redirect '/'
       end
     end
 

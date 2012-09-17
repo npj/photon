@@ -1,4 +1,5 @@
 require './photon/auth'
+require './photon/http_methods'
 
 module Photon
   class App < Sinatra::Base
@@ -8,6 +9,7 @@ module Photon
     set :slim, :pretty => true
     set :views, './views'
 
+    use HttpMethods
     register Auth
 
     get '/' do
