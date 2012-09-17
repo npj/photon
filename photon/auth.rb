@@ -38,11 +38,10 @@ module Photon
     end
 
     def self.create_admin_user
-      ENV.values_at('PHOTON_ADMIN_EMAIL', 'PHOTON_ADMIN_PASSWORD').tap do |(email, password)|
-        if email && password
-          unless User.authenticate(email, password)
-            User.create(email: email, password: password)
-          end
+      username, email, password = ENV.values_at(*%w{ PHOTON_ADMIN_USERNAME PHOTON_ADMIN_EMAIL PHOTON_ADMIN_PASSWORD })
+      if username && email && password
+        unless User.authenticate(username, password)
+          User.create(email: email, username: username, password: password)
         end
       end
     end
@@ -61,12 +60,11 @@ module Photon
       Warden::Strategies.add(:password) do
 
         def valid?
-          params["email"] || params["password"]
+          params["username"] || params["password"]
         end
 
         def authenticate!
-          if u = User.authenticate(params["email"], params["password"])
-            puts u.inspect
+          if u = User.authenticate(params["username"], params["password"])
             success!(u)
           else
             fail!("Could not log in")
