@@ -1,6 +1,13 @@
 module Photon
   module Auth
 
+    REASON = {
+      credentials: {
+           code: 1,
+        message: "Username or password incorrect."
+      }
+    }
+
     def self.registered(app)
       create_admin_user
       configure_warden
@@ -10,7 +17,16 @@ module Photon
 
     def self.define_routes(app)
       app.get '/auth/login/?' do
-        slim :'auth/login', locals: { nav: false }
+
+        error = nil
+
+        if params[:reason]
+          if list = REASON.find { |_, hash| hash[:code] == params[:reason].to_i }
+            error = list[1][:message]
+          end
+        end
+
+        slim :'auth/login', locals: { nav: false, error: error }
       end
 
       app.post '/auth/login/?' do
@@ -31,7 +47,8 @@ module Photon
         config.default_strategies :password
         config.failure_app = Sinatra.new do
           post '/unauthenticated/?' do
-            redirect "/auth/login"
+            res = env['warden.options'][:reason]
+            redirect "/auth/login#{res ? "?reason=#{res}" : ""}"
           end
         end
       end
@@ -67,7 +84,7 @@ module Photon
           if u = User.authenticate(params["username"], params["password"])
             success!(u)
           else
-            fail!("Could not log in")
+            throw :warden, :reason => REASON[:credentials][:code]
           end
         end
       end
