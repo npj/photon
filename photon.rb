@@ -10,6 +10,7 @@ require_dir = proc do |dir|
   end
 end
 
+require_dir['lib']
 require_dir['config']
 require_dir['models']
 require './photon/app'

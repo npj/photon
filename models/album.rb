@@ -2,6 +2,8 @@ class Album
   include Mongoid::Document
   include Mongoid::Timestamps
 
+  include Photon::Model::Code
+
   field :title
   field :code
 
@@ -26,4 +28,10 @@ class Album
       p.img
     end
   end
+
+  protected
+
+    def code_scope
+      Album
+    end
 end

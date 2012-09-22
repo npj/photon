@@ -17,16 +17,15 @@ module Photon
             slim :'photos/new'
           end
 
-          app.get '/a/:album_code/p/:id' do
+          app.get '/a/:album_code/p/:code' do
             @photo = Photo.find_by(code: params[:code])
             slim :'photos/show'
           end
 
           app.post "/a/:album_code/p" do
-            Photo.create({
-              album: @album,
-                img: UploadedFile.new(params[:img])
-            })
+            params[:img].each do |img|
+              @album.photos.create(img: UploadedFile.new(img))
+            end
             redirect "/a/#{@album.code}/p/new"
           end
         end
