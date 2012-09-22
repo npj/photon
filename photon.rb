@@ -3,6 +3,7 @@ require 'warden'
 require 'slim'
 require 'mongoid'
 require 'dragonfly'
+require 'rack/cache'
 
 require_dir = proc do |dir| 
   Dir["./#{dir}/**/*.rb"].each do |f| 

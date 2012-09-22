@@ -2,19 +2,28 @@
 # for example, a logout link which uses
 # the DELETE method
 module Photon
-  class HttpMethods
-    def initialize(app)
-      @app = app
-    end
+  module HttpMethods
 
-    def call(env)
-      r = Rack::Request.new(env)
-
-      if %w{ POST PUT DELETE }.include?(r['_method'])
-        env['REQUEST_METHOD'] = r['_method']
+    class MethodWriter
+      def initialize(app)
+        @app = app
       end
 
-      @app.call(env)
+      def call(env)
+        r = Rack::Request.new(env)
+
+        if %w{ POST PUT DELETE }.include?(r['_method'])
+          env['REQUEST_METHOD'] = r['_method']
+        end
+
+        @app.call(env)
+      end
+    end
+
+    class << self
+      def registered(app)
+        app.use MethodWriter
+      end
     end
   end
 end

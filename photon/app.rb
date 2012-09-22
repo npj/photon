@@ -1,5 +1,6 @@
-require './photon/auth'
+require './photon/cache'
 require './photon/http_methods'
+require './photon/auth'
 require './photon/processing'
 require './photon/photos'
 
@@ -11,9 +12,10 @@ module Photon
     set :slim, :pretty => true
     set :views, './views'
 
-    use HttpMethods
-    register Auth
+    register Cache
     register Processing
+    register HttpMethods
+    register Auth
     register Photos
 
     get '/' do
