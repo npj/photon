@@ -1,0 +1,14 @@
+form.form-horizontal.well action="/a/#{@album.code}/p" method="POST" enctype="multipart/form-data"
+  legend Upload Photo
+  div.control-group
+    label.control-label for="img" File:
+    div.controls
+      input type="file" name="img"
+  div.control-group
+    div.form-actions
+      button.btn.btn-primary type="submit" Upload
+
+div.well
+  - Album.last.photos.each do |photo|
+    a href="/albums/#{@album.code}/photos/#{photo.code}"
+      img src="#{photo.thumb_url}"

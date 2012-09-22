@@ -2,11 +2,16 @@ require 'sinatra/base'
 require 'warden'
 require 'slim'
 require 'mongoid'
+require 'dragonfly'
 
-%w{ config models }.each do |dir|
-  Dir["./#{dir}/**/*.rb"].each { |f| require f }
+require_dir = proc do |dir| 
+  Dir["./#{dir}/**/*.rb"].each do |f| 
+    require f
+  end
 end
 
+require_dir['config']
+require_dir['models']
 require './photon/app'
 
 module Photon

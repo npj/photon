@@ -2,9 +2,13 @@ require 'digest'
 
 class User
   include Mongoid::Document
+  include Mongoid::Timestamps
+
   field :email
   field :username
   field :password
+
+  has_many :albums, dependent: :destroy
 
   validates :email,    presence: true, uniqueness: true
   validates :username, presence: true, uniqueness: true
