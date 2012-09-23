@@ -1,4 +1,4 @@
-form.form-horizontal.well action="/a/#{@album.code}/p" method="POST" enctype="multipart/form-data"
+form.photo-upload.form-horizontal.well action="/a/#{@album.code}/p" method="POST" enctype="multipart/form-data"
   legend Upload Photo
   div.control-group
     label.control-label for="img" File:
@@ -8,7 +8,12 @@ form.form-horizontal.well action="/a/#{@album.code}/p" method="POST" enctype="mu
     div.form-actions
       button.btn.btn-primary type="submit" Upload
 
+div.well.progress-container
+  div.progress-prototype.progress.progress-info.progress-striped.active.hidden
+    div.bar
+
 div.well
   - Album.last.photos.each do |photo|
     a href="/a/#{@album.code}/p/#{photo.code}"
       img src="#{photo.thumb_url}"
+

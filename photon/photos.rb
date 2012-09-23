@@ -23,10 +23,16 @@ module Photon
           end
 
           app.post "/a/:album_code/p" do
-            params[:img].each do |img|
-              @album.photos.create(img: UploadedFile.new(img))
+            Tempfile.open(env['HTTP_X_FILE_NAME']) do |temp|
+              temp.write(request.body.read)
+              @album.photos.create({
+                img: UploadedFile.new({
+                      tempfile: temp,
+                  content_type: env['CONTENT_TYPE'],
+                      filename: env['HTTP_X_FILE_NAME']
+                })
+              })
             end
-            redirect "/a/#{@album.code}/p/new"
           end
         end
     end
