@@ -19,7 +19,6 @@ Photon.Photos.Upload = function() {
     },
 
     Started : function(name, index) {
-      console.log("started");
       var container = $('div.progress-container');
       var progress  = container.find('div.progress-prototype').clone();
 
@@ -46,9 +45,8 @@ Photon.Photos.Upload = function() {
   return self.init();
 };
 
-var upload = null;
 $(document).ready(function() {
-  upload = new Photon.Photos.Upload();
+  var upload = new Photon.Photos.Upload();
   $('form.photo-upload').multiUpload({
     started  : upload.Started,
     complete : upload.Complete,

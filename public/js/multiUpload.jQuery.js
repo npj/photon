@@ -4,8 +4,6 @@
 
     function upload(file, url, method, index) {
 
-      console.log(file);
-
       var xhr = new XMLHttpRequest();
 
       xhr.open(method, url, true);
