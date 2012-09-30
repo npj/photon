@@ -10,10 +10,23 @@ class Album
   belongs_to :user
   embeds_many :photos
 
-  def cover
-    if photo = self.photos.where(cover: true).first
-      photo.img
+  validates :user, presence: true
+
+  class << self
+    def create_with_defaults(params = { })
+      self.new(params).tap do |album|
+        album.title = "Untitled Album"
+        album.save
+      end
     end
+  end
+
+  def empty?
+    self.photos.empty?
+  end
+
+  def cover
+    self.photos.where(cover: true).first || self.photos.first || Photo.placeholder
   end
 
   # can take a photo or photo id
@@ -25,7 +38,7 @@ class Album
       self.photos.where(cover: true).update_all(cover: false)
       p.cover = true
       p.save
-      p.img
+      p
     end
   end
 

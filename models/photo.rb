@@ -5,7 +5,7 @@ class Photo
   include Photon::Model::Code
 
   THUMBS = {
-    :normal => "150x150>"
+    :normal => "260x180>"
   }
 
   attr_accessible :img
@@ -16,6 +16,20 @@ class Photo
   image_accessor :img
 
   embedded_in :album
+
+  class << self
+    def placeholder
+      unless @placeholder
+        @placeholder = Object.new
+        class << @placeholder
+          def thumb_url(size = :normal)
+            "http://placehold.it/#{THUMBS[size].gsub(/\>\!/, "")}/073642/b58900&text=%20"
+          end
+        end
+      end
+      @placeholder
+    end
+  end
 
   def full_url
     self.img.thumb("600x600>", :png).process(:auto_orient).url

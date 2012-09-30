@@ -13,10 +13,6 @@ module Photon
             @album = Album.find_by(code: params[:album_code])
           end
 
-          app.get "/a/:album_code/p/new" do
-            slim :'photos/new'
-          end
-
           app.get '/a/:album_code/p/:code' do
             @photo = Photo.find_by(code: params[:code])
             slim :'photos/show'

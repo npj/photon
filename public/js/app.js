@@ -28,4 +28,5 @@ Photon.Global.onDeleteLink = function(event) {
 
 $(document).ready(function() {
   $('a[data-method=delete]').click(Photon.Global.onDeleteLink);
+  $('.help').tooltip();
 });

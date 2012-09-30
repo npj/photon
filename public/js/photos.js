@@ -9,7 +9,6 @@ Photon.Photos.Upload = function() {
   }
 
   function setProgress(index, percent) {
-    console.log(progressFor(index));
     progressFor(index).find('div.bar').css({ width : percent + '%' });
   }
 
