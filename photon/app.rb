@@ -23,11 +23,15 @@ module Photon
     helpers do
       def log(stuff)
         @log ||= begin
-          FileUtils.mkdir_p(File.dirname(self.class.log_file))
-          File.open(self.class.log_file, "a")
+          if self.class.environment == 'development'
+            FileUtils.mkdir_p(File.dirname(self.class.log_file))
+            File.open(self.class.log_file, "a")
+          end
         end
-        @log.puts stuff
-        @log.flush
+        if @log
+          @log.puts stuff
+          @log.flush
+        end
       end
 
       def can?(action, object)
