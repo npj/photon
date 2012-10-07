@@ -21,6 +21,16 @@ module Photon
     set :log_file, File.join(File.dirname(root), "log", "#{environment}.log")
 
     helpers do
+
+      def asset_path(path)
+        @asset_host ||= "https://s3.amazonaws.com/assets.photon"
+        if self.class.environment == 'production'
+          "#{@asset_host}/#{path}"
+        else
+          path
+        end
+      end
+
       def log(stuff)
         @log ||= begin
           if self.class.environment == 'development'

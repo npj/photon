@@ -4,6 +4,7 @@ require 'slim'
 require 'mongoid'
 require 'dragonfly'
 require 'rack/cache'
+require 'aws/s3'
 
 require_dir = proc do |dir| 
   Dir["./#{dir}/**/*.rb"].each do |f| 

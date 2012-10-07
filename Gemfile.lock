@@ -7,10 +7,15 @@ GEM
     activesupport (3.2.8)
       i18n (~> 0.6)
       multi_json (~> 1.0)
+    aws-s3 (0.6.3)
+      builder
+      mime-types
+      xml-simple
     builder (3.0.3)
     dragonfly (0.9.12)
       rack
     i18n (0.6.1)
+    mime-types (1.19)
     mongoid (3.0.6)
       activemodel (~> 3.1)
       moped (~> 1.1)
@@ -38,11 +43,13 @@ GEM
     tzinfo (0.3.33)
     warden (1.2.1)
       rack (>= 1.0)
+    xml-simple (1.1.1)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
+  aws-s3 (~> 0.6.3)
   dragonfly (~> 0.9.2)
   mongoid (~> 3.0.0)
   rack-cache (~> 1.2)
