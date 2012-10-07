@@ -16,7 +16,7 @@
 
       if(options && options.complete) {
         xhr.onload = function() {
-          options.complete(file.name, index);
+          options.complete(file.name, index, this.responseText);
         }
       }
 

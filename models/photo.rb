@@ -32,11 +32,11 @@ class Photo
   end
 
   def full_url
-    self.img.thumb("600x600>", :png).process(:auto_orient).url
+    self.img.process(:auto_orient).thumb("600x600>", :png).url
   end
 
   def thumb_url(size = :normal)
-    self.img.thumb(THUMBS[size], :png).process(:auto_orient).url
+    self.img.process(:auto_orient).thumb(THUMBS[size], :png).url
   end
 
   protected

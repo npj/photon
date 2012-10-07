@@ -1,13 +1,17 @@
 div.page-header
-  div.pull-left.lead My Albums
-  form.form-inline action="/a" method="POST"
-    button.btn.new-album type="submit"
+  span.lead My Albums
+  div.pull-right
+    a.btn.new-album href="/a" data-method="post"
       i.icon-plus-sign
+      |  New
 div.row
   div.span12
     ul.thumbnails
       - current_user.albums.each do |album|
         li.span3
-          a.thumbnail href="#"
+          a.thumbnail href="/a/#{album.code}"
             img src="#{album.cover.thumb_url}"
+          - if can?(:destroy, album)
+            div.album-actions.pull-right
+              a href="/a/#{album.code}" data-method="delete" data-confirm="Really delete this album?" delete
 

@@ -8,9 +8,11 @@ class Album
   field :code
 
   belongs_to :user
-  embeds_many :photos
+  embeds_many :photos, order: { created_at: :desc }
 
   validates :user, presence: true
+
+  default_scope order_by(created_at: :desc)
 
   class << self
     def create_with_defaults(params = { })

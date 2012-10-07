@@ -1,0 +1,42 @@
+div.page-header
+  span.lead class="#{can?(:rename, @album) ? "editable.text" : ""}" #{@album.title}
+  div
+    a href="/" &laquo; Back
+
+div.photos-container
+  div.row
+    div.span12
+      ul.thumbnails data-refresh="/a/#{@album.code}/p" data-strategy="append"
+        - if @album.photos.empty?
+          li.empty-album
+            em There are no photos in this album.
+        - else
+          - @album.photos.each do |photo|
+            li.span3
+              a.thumbnail href="/a/#{@album.code}/p/#{photo.code}"
+                img src="#{photo.thumb_url}"
+              - if can?(:destroy, photo)
+                div.photo-actions.pull-right
+                  a href="/a/#{@album.code}/p/#{photo.code}" data-method="delete" data-confirm="Really delete this photo?" delete
+
+
+- if can?(:upload, @album)
+  div.well.progress-container.hidden
+
+    div.progress-proto.orig.hidden
+      span.text
+      div.progress.progress-info.progress-striped.active
+        div.bar
+
+  form.photo-upload.form-horizontal.well action="/a/#{@album.code}/p" method="POST" enctype="multipart/form-data"
+    legend Upload Photos
+    div.control-group
+      label.control-label for="img" File:
+      div.controls
+        input type="file" name="img[]" multiple="multiple"
+    div.form-actions
+      button.btn.btn-primary type="submit" Upload
+
+
+
+

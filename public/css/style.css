@@ -1,11 +1,13 @@
 body {
-  padding-top: 40px;
+  padding-top: 60px;
+  padding-bottom: 30px;
 }
 
 .hidden {
   display: none;
 }
 
-button.new-album {
-  margin-left: 10px;
+.thumbnail {
+  height: 180px;
 }
+

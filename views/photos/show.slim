@@ -1,2 +1,9 @@
-div.page_header #{@photo.img_name}
-img src="#{@photo.full_url}"
+div.page-header
+  span.lead
+    strong  #{@photo.img.name}
+  div
+    a href="/a/#{@album.code}" &laquo; Back
+
+ul.thumbnails
+  li
+    img src="#{@photo.full_url}"

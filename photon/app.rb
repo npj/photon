@@ -8,8 +8,6 @@ require './photon/albums'
 module Photon
   class App < Sinatra::Base
 
-    enable :logging
-
     set :slim, :pretty => true
     set :views, './views'
 
@@ -19,6 +17,47 @@ module Photon
     register Auth
     register Photos
     register Albums
+
+    set :log_file, File.join(File.dirname(root), "log", "#{environment}.log")
+
+    helpers do
+      def log(stuff)
+        @log ||= begin
+          FileUtils.mkdir_p(File.dirname(self.class.log_file))
+          File.open(self.class.log_file, "a")
+        end
+        @log.puts stuff
+        @log.flush
+      end
+
+      def can?(action, object)
+        case object
+          when Class
+            case object.name
+              when "Album"
+                case action
+                  when :create then true
+                end
+              when "Photo"
+                case action
+                  when :create then true
+                end
+            end
+
+          when Album
+            case action
+              when :rename  then object.user == current_user
+              when :upload  then object.user == current_user
+              when :destroy then object.user == current_user
+            end
+
+          when Photo
+            case action
+              when :destroy then object.album.user == current_user
+            end
+        end
+      end
+    end
 
     get '/' do
       env['warden'].authenticate!

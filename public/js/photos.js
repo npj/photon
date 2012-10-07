@@ -5,7 +5,7 @@ Photon.Photos = (Photon.Photos || { });
 Photon.Photos.Upload = function() {
 
   function progressFor(index) {
-    return $('div.progress[data-index=' + index + ']');
+    return $('div.progress-proto[data-index="' + index + '"]');
   }
 
   function setProgress(index, percent) {
@@ -19,21 +19,30 @@ Photon.Photos.Upload = function() {
 
     Started : function(name, index) {
       var container = $('div.progress-container');
-      var progress  = container.find('div.progress-prototype').clone();
+      var progress  = container.find('div.progress-proto.orig').clone();
+
+      container.removeClass('hidden');
 
       progress.attr('data-index', index);
       progress.removeClass('hidden');
-      progress.removeClass('progress-prototype');
+      progress.removeClass('orig');
+
+      progress.find("span").html("<strong>" + name + "</strong>");
+
       container.append(progress);
     },
 
-    Complete : function(name, index) {
-      var progress = progressFor(index)
-      progress.addClass('progress-success');
-      progress.removeClass('progress-info');
-      progress.removeClass('progress-striped');
-      progress.removeClass('active');
-      //$('div[data-refresh]').refresh();
+    Complete : function(name, index, code) {
+
+      $("li.empty-album").remove();
+
+      progressFor(index).remove();
+
+      $('[data-refresh]').trigger('refresh', "/" + code + "?thumb=true");
+
+      if($('div.progress[data-index]').length == 0) {
+        $('div.progress-container').addClass('hidden');
+      }
     },
 
     Progress : function(name, index, percent) {
