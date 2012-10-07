@@ -24,7 +24,7 @@ module Photon
 
       def asset_path(path)
         @asset_host ||= "https://s3.amazonaws.com/assets.photon"
-        if settings.environment == 'production'
+        if settings.environment == :production
           "#{@asset_host}/#{path}"
         else
           path
@@ -33,7 +33,7 @@ module Photon
 
       def log(stuff)
         @log ||= begin
-          if settings.environment == 'development'
+          if settings.environment == :development
             FileUtils.mkdir_p(File.dirname(self.class.log_file))
             File.open(self.class.log_file, "a")
           end
