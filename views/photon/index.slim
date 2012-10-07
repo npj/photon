@@ -9,7 +9,7 @@ div.row
     ul.thumbnails
       - current_user.albums.each do |album|
         li.span3
-          a.thumbnail href="/a/#{album.code}"
+          a.thumbnail.help href="/a/#{album.code}" data-original-title="<strong>#{album.title}</strong>"
             img src="#{album.cover.thumb_url}"
           - if can?(:destroy, album)
             div.album-actions.pull-right

@@ -22,6 +22,15 @@ module Photon
             end
           end
 
+          app.put "/a/:code" do
+            content_type :json
+            if can?(:rename, @album)
+              @album.title = params[:album][:title]
+              @album.save
+            end
+            { :title => @album.title }.to_json
+          end
+
           app.get "/a/:code" do
             slim :'albums/show'
           end

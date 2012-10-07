@@ -1,5 +1,5 @@
 div.page-header
-  span.lead class="#{can?(:rename, @album) ? "editable.text" : ""}" #{@album.title}
+  span.lead.title class="#{can?(:rename, @album) ? "editable" : ""}" data-url="/a/#{@album.code}" #{@album.title}
   div
     a href="/" &laquo; Back
 

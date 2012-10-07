@@ -49,4 +49,5 @@ Photon.Global.onRefresh = function(event, fragment) {
 $(document).ready(function() {
   $('a[data-method]').click(Photon.Global.onMethodLink);
   $('[data-refresh]').on('refresh', Photon.Global.onRefresh);
+  $('.help').tooltip();
 });
