@@ -23,12 +23,12 @@ module Photon
     helpers do
 
       def asset_path(path)
-        @asset_host ||= "https://s3.amazonaws.com/assets.photon"
-        if settings.environment == :production
-          "#{@asset_host}/#{path}"
+        @asset_host ||= if settings.environment == :production
+          "https://s3.amazonaws.com/assets.photon"
         else
-          path
+          ""
         end
+        "#{@asset_host}/#{path}"
       end
 
       def log(stuff)

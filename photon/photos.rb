@@ -24,18 +24,10 @@ module Photon
 
           app.post "/a/:album_code/p" do
             if can?(:create, Photo)
-              photo = nil
-
-              Tempfile.open(env['HTTP_X_FILE_NAME']) do |temp|
-                temp.write(request.body.read)
-                photo = @album.photos.create({
-                  img: UploadedFile.new({
-                        tempfile: temp,
-                   content_type: env['CONTENT_TYPE'],
-                        filename: env['HTTP_X_FILE_NAME']
-                  })
-                })
-              end
+              photo          = @album.photos.build
+              photo.img      = request.body.read
+              photo.img_name = env['HTTP_X_FILE_NAME']
+              photo.save
 
               photo.code
             else
