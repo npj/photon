@@ -1,5 +1,3 @@
-require 'debugger'
-
 module Photon
   module Config
     module Debugging
@@ -17,6 +15,7 @@ module Photon
       end
 
       def load(app)
+        require 'debugger'
         # Debugger.start_remote
         # app.use Middleware
       end

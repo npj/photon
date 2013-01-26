@@ -1,11 +1,11 @@
-require 'dragonfly'
-
 module Photon
   module Config
     module Dragonfly
       extend self
 
       def load(app)
+        require 'dragonfly'
+
         images = ::Dragonfly[:images]
 
         images.define_macro_on_include(::Mongoid::Document, :image_accessor)

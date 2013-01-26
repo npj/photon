@@ -1,5 +1,3 @@
-require 'mongoid'
-
 module Photon
   module Config
     module Mongoid
@@ -10,6 +8,7 @@ module Photon
       end
 
       def load(app)
+        require 'mongoid'
         ::Mongoid.load!(ERB.new(config_file).result)
       end
     end

@@ -1,5 +1,3 @@
-require 'aws/s3'
-
 module Photon
   module Config
     extend self

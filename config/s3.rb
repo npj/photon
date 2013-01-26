@@ -8,6 +8,8 @@ module Photon
       end
 
       def load(app)
+        require 'aws/s3'
+
         config = YAML.load(ERB.new(File.read(config_file)).result)
 
         config[app.environment.to_s].tap do |s3|
