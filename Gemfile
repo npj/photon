@@ -7,6 +7,10 @@ gem 'mongoid',      '~> 3.0.0'
 gem 'rack-test',    '~> 0.6.1'
 gem 'slim',         '~> 1.3.0'
 gem 'dragonfly',    '~> 0.9.2'
-gem 'rack-cache',   '~> 1.2', require: 'rack/cache'
+gem 'rack-cache',   '~> 1.2'
 gem 'aws-s3',       '~> 0.6.3'
 gem 'fog',          '~> 1.6.0'
+
+group :development do
+  gem 'debugger'
+end

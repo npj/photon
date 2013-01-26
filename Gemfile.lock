@@ -12,6 +12,14 @@ GEM
       mime-types
       xml-simple
     builder (3.0.3)
+    columnize (0.3.6)
+    debugger (1.2.4)
+      columnize (>= 0.3.1)
+      debugger-linecache (~> 1.1.1)
+      debugger-ruby_core_source (~> 1.1.7)
+    debugger-linecache (1.1.2)
+      debugger-ruby_core_source (>= 1.1.1)
+    debugger-ruby_core_source (1.1.7)
     dragonfly (0.9.12)
       rack
     excon (0.16.4)
@@ -69,6 +77,7 @@ PLATFORMS
 
 DEPENDENCIES
   aws-s3 (~> 0.6.3)
+  debugger
   dragonfly (~> 0.9.2)
   fog (~> 1.6.0)
   mongoid (~> 3.0.0)
