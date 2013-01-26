@@ -3,18 +3,26 @@ module Photon
     module S3
       extend self
 
-      def load!
-        file   = File.join(File.dirname(__FILE__), "files", "s3.yml.erb")
-        config = YAML.load(ERB.new(File.read(file)).result)
-        env    = Sinatra::Base.environment.to_s
+      def config_file
+        File.expand_path("../files/s3.yml.erb", __FILE__)
+      end
+
+      def load(app)
+        config = YAML.load(ERB.new(File.read(config_file)).result)
+
+        config[app.environment.to_s].tap do |s3|
+          app.configure do
+            app.set :s3_access_key_id,     s3['access_key_id']
+            app.set :s3_secret_access_key, s3['secret_access_key']
+            app.set :s3_bucket,            s3['bucket']
+          end
+        end
 
         AWS::S3::Base.establish_connection!({
-              access_key_id: config[env]['access_key_id'],
-          secret_access_key: config[env]['secret_access_key']
+              access_key_id: app.s3_access_key_id,
+          secret_access_key: app.s3_secret_access_key
         })
       end
     end
   end
 end
-
-Photon::Config::S3.load!

@@ -1,12 +1,21 @@
-require './photon/cache'
-require './photon/http_methods'
-require './photon/auth'
-require './photon/processing'
-require './photon/photos'
-require './photon/albums'
+require 'sinatra/base'
+require 'slim'
 
 module Photon
+
+  def self.load(app)
+
+    require "#{app.root}/../config/config"
+    Config.load(app)
+
+    %w{ lib models photon }.each do |sub|
+      Dir["#{app.root}/../#{sub}/**/*.rb"].each { |f| require f }
+    end
+  end
+
   class App < Sinatra::Base
+
+    Photon.load(self)
 
     set :slim, :pretty => true
     set :views, './views'
@@ -18,32 +27,7 @@ module Photon
     register Photos
     register Albums
 
-    set :log_file, File.join(File.dirname(root), "log", "#{environment}.log")
-
     helpers do
-
-      def asset_path(path)
-        @asset_host ||= if settings.environment == :production
-          "https://s3.amazonaws.com/assets.photon"
-        else
-          ""
-        end
-        "#{@asset_host}/#{path}"
-      end
-
-      def log(stuff)
-        @log ||= begin
-          if settings.environment == :development
-            FileUtils.mkdir_p(File.dirname(self.class.log_file))
-            File.open(self.class.log_file, "a")
-          end
-        end
-        if @log
-          @log.puts stuff
-          @log.flush
-        end
-      end
-
       def can?(action, object)
         case object
           when Class

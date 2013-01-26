@@ -1,21 +1,5 @@
-require 'sinatra/base'
-require 'warden'
-require 'slim'
-require 'mongoid'
-require 'dragonfly'
-require 'rack/cache'
-require 'aws/s3'
+require 'rubygems'
+require 'bundler/setup'
+Bundler.setup(:defaults, ENV['RACK_ENV'].to_sym)
+require File.expand_path('../photon/app', __FILE__)
 
-require_dir = proc do |dir| 
-  Dir["./#{dir}/**/*.rb"].each do |f| 
-    require f
-  end
-end
-
-require_dir['lib']
-require_dir['config']
-require_dir['models']
-require './photon/app'
-
-module Photon
-end
