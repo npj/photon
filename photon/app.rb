@@ -21,11 +21,11 @@ module Photon
     set :views, './views'
 
     register Cache
-    register Processing
     register HttpMethods
     register Auth
     register Photos
     register Albums
+    register Comments
 
     helpers do
       def can?(action, object)
@@ -52,6 +52,11 @@ module Photon
           when Photo
             case action
               when :destroy then object.album.user == current_user
+            end
+
+          when Comment
+            case action
+              when :create then true
             end
         end
       end

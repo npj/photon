@@ -1,7 +1,5 @@
 class Album
-  include Mongoid::Document
-  include Mongoid::Timestamps
-
+  include Photon::Model
   include Photon::Model::Code
 
   field :title
@@ -9,6 +7,7 @@ class Album
 
   belongs_to :user
   embeds_many :photos, order: { created_at: :desc }
+  has_many    :comments, as: :commentable, order: { created_at: :desc }, dependent: :destroy
 
   validates :user, presence: true
 

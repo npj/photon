@@ -1,8 +1,7 @@
 require 'digest'
 
 class User
-  include Mongoid::Document
-  include Mongoid::Timestamps
+  include Photon::Model
 
   field :email
   field :username

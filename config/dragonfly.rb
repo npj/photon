@@ -17,6 +17,12 @@ module Photon
           c.secret_access_key = app.s3_secret_access_key
           c.storage_headers   = { 'x-amz-acl' => 'private' }
         end
+
+        images.configure_with(:imagemagick) do |c|
+          c.url_format = '/media/:job'
+        end
+
+        app.use ::Dragonfly::Middleware, :images
       end
     end
   end

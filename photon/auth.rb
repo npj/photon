@@ -2,6 +2,7 @@ require 'warden'
 
 module Photon
   module Auth
+    extend self
 
     REASON = {
       credentials: {
@@ -10,7 +11,7 @@ module Photon
       }
     }
 
-    def self.registered(app)
+    def registered(app)
       create_admin_user
       configure_warden
       define_routes(app)
@@ -18,7 +19,7 @@ module Photon
       add_middleware(app)
     end
 
-    def self.define_routes(app)
+    def define_routes(app)
       app.get '/auth/login/?' do
 
         error = nil
@@ -43,7 +44,7 @@ module Photon
       end
     end
 
-    def self.add_helpers(app)
+    def add_helpers(app)
       app.helpers do
         def current_user
           env['warden'].user
@@ -51,7 +52,7 @@ module Photon
       end
     end
 
-    def self.add_middleware(app)
+    def add_middleware(app)
       app.use Rack::Session::Cookie
 
       app.use Warden::Manager do |config|
@@ -65,7 +66,7 @@ module Photon
       end
     end
 
-    def self.create_admin_user
+    def create_admin_user
       username, email, password = ENV.values_at(*%w{ PHOTON_ADMIN_USERNAME PHOTON_ADMIN_EMAIL PHOTON_ADMIN_PASSWORD })
       if username && email && password
         unless User.authenticate(username, password)
@@ -74,7 +75,7 @@ module Photon
       end
     end
 
-    def self.configure_warden
+    def configure_warden
       Warden::Manager.serialize_into_session { |user| user.id       }
       Warden::Manager.serialize_from_session { |id|   User.find(id) }
 

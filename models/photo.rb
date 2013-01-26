@@ -1,7 +1,5 @@
 class Photo
-  include Mongoid::Document
-  include Mongoid::Timestamps
-
+  include Photon::Model
   include Photon::Model::Code
 
   THUMBS = {
@@ -17,14 +15,13 @@ class Photo
   image_accessor :img
 
   embedded_in :album
+  has_many :comments, as: :commentable, dependent: :destroy
 
-  class << self
+  class_methods do
     def placeholder
-      @placeholder ||= Object.new.tap do |object|
-        class << object
-          def thumb_url(size = :normal)
-            "http://placehold.it/#{THUMBS[size].gsub(/\>|\!/, "")}/073642/b58900&text=%20"
-          end
+      @placeholder ||= Photon::Meta.new do
+        def thumb_url(size = :normal)
+          "http://placehold.it/#{THUMBS[size].gsub(/\>|\!/, "")}/073642/b58900&text=%20"
         end
       end
     end

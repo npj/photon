@@ -15,4 +15,17 @@ body {
   margin: 0;
 }
 
+table.comments {
+  margin: 0;
+  list-style-type: none;
+}
+
+table.comments tr {
+
+}
+
+table.comments tr td div.user span.time {
+
+}
+
 

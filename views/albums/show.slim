@@ -19,6 +19,22 @@ div.photos-container
                 div.photo-actions.pull-right
                   a href="/a/#{@album.code}/p/#{photo.code}" data-method="delete" data-confirm="Really delete this photo?" delete
 
+- unless @album.comments.empty?
+  table.table.table-striped.comments
+    - @album.comments.each do |comment|
+      tr
+        td
+          div.user
+            strong #{comment.user.username}
+            span.time.muted
+              small  &mdash; #{comment.created_at.strftime(" %a %B %d, %Y at %H:%M")}
+          div.body #{comment.body.html_safe}
+
+div.well
+  form.new-comment action="/a/#{@album.code}/c" method="POST"
+    div
+      textarea name="comment[body]" rows="5"
+    button.btn.btn-primary type="submit" Comment
 
 - if can?(:upload, @album)
   div.well.progress-container.hidden

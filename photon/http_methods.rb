@@ -3,6 +3,7 @@
 # the DELETE method
 module Photon
   module HttpMethods
+    extend self
 
     class MethodWriter
       def initialize(app)
@@ -20,10 +21,8 @@ module Photon
       end
     end
 
-    class << self
-      def registered(app)
-        app.use MethodWriter
-      end
+    def registered(app)
+      app.use MethodWriter
     end
   end
 end
